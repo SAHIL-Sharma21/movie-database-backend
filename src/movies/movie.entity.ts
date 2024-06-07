@@ -10,7 +10,7 @@ export class Movie {
     title: string;
 
     @Column()
-    genere: string;
+    genre: string;
 
     @Column({default: 0})
     rating: number;

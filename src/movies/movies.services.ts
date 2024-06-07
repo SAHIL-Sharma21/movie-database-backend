@@ -35,4 +35,9 @@ export class MoviesService {
     getAllMovies(): Promise<Movie[]>{
         return this.moviesRepository.find();
     }
+
+    //filter movie by genere
+    getMoviesByGenere(genre: string): Promise<Movie[]> {
+        return this.moviesRepository.find({where: {genre}})
+    }
 }
