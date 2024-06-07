@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    postgres: 
+      image: postgres:latest
+      container_name: postgres
+      ports:
+        - "5432:5432"
+      environment: 
+        POSTGRES_DB: movie_database
+        POSTGRES_USER: nest_user
+        POSTGRES_PASSWORD: nest_password
+      volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
