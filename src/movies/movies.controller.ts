@@ -1,6 +1,7 @@
-import { Controller, Get, Query} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query} from '@nestjs/common';
 import {MoviesService} from './movies.services' 
 import { Movie } from './movie.entity';
+import { CreateMovieDto } from './dto/create-movies.dto';
 
 
 @Controller('api/movies')
@@ -38,5 +39,52 @@ export class MoviesController {
             message: "All movies are Fetched by their genre!"
         }
     }
-}
 
+
+    //add  ovie
+    @Post()
+    async createMovie(@Body() createMovieDto: CreateMovieDto): Promise<{succes?: boolean, data?: Movie, message?: string}> {
+        try {
+            const {title, description, genre, rating, releaseDate} = createMovieDto;
+    
+            if(![title, description, genre, rating, releaseDate].some(field => field !== undefined)) {
+                return {
+                    succes: false,
+                    message: "Please enter all the required field"
+                }
+            } 
+    
+            const data = {
+                title: title,
+                description,
+                genre,
+                rating: rating, 
+                releaseDate,
+            }
+
+            console.log(data);
+            
+            //if all the filds are given thennwe wil make the entry in data base
+            const addedMovie = await this.movieService.createMovie(data);
+            
+            if(!addedMovie){
+                return {
+                    succes: false,
+                    message: "error while creating the entry."
+                }
+            }
+    
+            //if everytrhing is correct then we will retun the response
+            return {
+                succes: true,
+                data: addedMovie,
+                message: "Movie Added Successfully!"
+            }
+        } catch (error) {
+            return {
+                succes: false,
+                message: "Error while creating entry in database."
+            }
+        }
+    }
+}

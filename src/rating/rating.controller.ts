@@ -10,12 +10,12 @@ export class RatingController {
 
     @Post()
     async createRating(@Body() createReatingDto: CreateRatingDto): Promise<{success?: boolean, data?: Rating}> {
-        return this.ratingService.createRating(createReatingDto);
+        return await this.ratingService.createRating(createReatingDto);
     }
 
 
-    @Get(':movieId')
+    @Get('/:movieId')
     async getMovieRating(@Param('movieId') movieId: number): Promise<{success?: boolean, data?: Rating[]}> {
-        return this.ratingService.getMovieRatings(movieId);
+        return await this.ratingService.getMovieRatings(movieId);
     }
 }

@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Movie } from 'src/movies/movie.entity';
 
 @Entity()
@@ -6,13 +6,13 @@ export class Rating {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'int', width: 1})
+    @Column({ type: 'int' }) // Adjusted column type
     score: number;
 
-    @Column({type: 'text'})
+    @Column({ type: 'text' })
     feedback: string;
 
-    @ManyToOne(() => Movie, (movie) => movie.rating)
+    @ManyToOne(() => Movie, movie => movie.rating, { cascade: true }) // Added cascade option
+    @JoinColumn({ name: 'movieId' }) // Specify the foreign key column
     movie: Movie;
-
 }

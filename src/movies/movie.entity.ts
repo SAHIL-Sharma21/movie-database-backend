@@ -13,6 +13,11 @@ export class Movie {
     genre: string;
 
     @Column({default: 0})
-    rating: number;
+    rating: string;
 
+    @Column()
+    description: string;
+
+    @Column({type: 'date'})
+    releaseDate: Date
 }

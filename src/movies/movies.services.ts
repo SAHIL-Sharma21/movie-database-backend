@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm'
 import {Movie} from './movie.entity'
+import { CreateMovieDto } from "./dto/create-movies.dto";
 
 // interface Movies {
 //     id:number;
@@ -32,12 +33,23 @@ export class MoviesService {
         private moviesRepository: Repository<Movie>
     ){}
 
-    getAllMovies(): Promise<Movie[]>{
-        return this.moviesRepository.find();
+    async getAllMovies(): Promise<Movie[]>{
+        return await this.moviesRepository.find();
     }
 
     //filter movie by genere
-    getMoviesByGenere(genre: string): Promise<Movie[]> {
-        return this.moviesRepository.find({where: {genre}})
+   async getMoviesByGenere(genre: string): Promise<Movie[]> {
+        return await this.moviesRepository.find({where: {genre}})
+    }
+
+    //create Movie
+    async createMovie(createMovieDto: CreateMovieDto): Promise<Movie | null> {
+        try {
+            const movie = this.moviesRepository.create(createMovieDto);
+            return  await this.moviesRepository.save(movie);
+        } catch (error) {
+            console.error("Error while creating movie:", error);
+            return null; // Return null if there's an error
+        }
     }
 }
