@@ -58,6 +58,166 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Docker Database
+
+```bash
+#to check process
+$ docker ps
+
+#to start docker
+$ docker compose up -d
+
+#connect to db
+$ docker exce -it <Container_Id> psql -U <DB_User> -d <DB_Name>
+```
+
+## API ENPOINTS
+
+### Create Movie
+
+- **URL:** `http://localhost:3000/api/movies`
+- **Method:** `POST`
+- **Request Body:**
+
+```json
+{
+  "title": "Jumanji",
+  "description": "A game adventure.",
+  "genre": "Science Fiction",
+  "rating": "9",
+  "releaseDate": "2007-11-010T00:00:00.000Z"
+}
+```
+
+### RESPONSE
+
+```json
+{
+  "succes": true,
+  "data": {
+    "title": "Jumanji",
+    "genre": "Science Fiction",
+    "rating": "9",
+    "description": "A game adventure.",
+    "releaseDate": "2007-11-010T00:00:00.000Z",
+    "id": 4
+  },
+  "message": "Movie Added Successfully!"
+}
+```
+
+### GET ALL MOVIES
+
+- **URL:** `http://localhost:3000/api/movies`
+- **Method:** `GET`
+- **Request Body:**
+
+### RESPONSE
+
+```json
+{
+  "movies": [
+    {
+      "id": 3,
+      "title": "Interstellar",
+      "genre": "Science Fiction",
+      "rating": "9.2",
+      "description": "A space exploration adventure.",
+      "releaseDate": "2014-11-07"
+    },
+    {
+      "id": 4,
+      "title": "Jumanji",
+      "genre": "Science Fiction",
+      "rating": "9",
+      "description": "A game adventure.",
+      "releaseDate": "2007-11-10"
+    }
+  ],
+  "message": "all movies are fetched successfully!"
+}
+```
+
+### GET MOVIE BY GENRE
+
+- **URL:** `http://localhost:3000/api/movies/genre?genre=Science-Fiction`
+- **Method:** `GET`
+- **Request Query:**
+
+````json
+  {
+    "movies": [
+      {
+          "id": 3,
+          "title": "Interstellar",
+          "genre": "Science Fiction",
+          "rating": "9.2",
+          "description": "A space exploration adventure.",
+          "releaseDate": "2014-11-07"
+      },
+    ]
+  }
+  ```
+  ### GET MOVIE BY MOVIE ID
+  - **URL:** `http://localhost:3000/api/rating/4`
+  - **Method:** `GET`
+  - **Request Query:**
+
+  ```json
+    {
+      "success": true,
+      "data": [
+      {
+          "id": 1,
+          "score": 5,
+          "feedback": "Amazing movie",
+          "movie": {
+              "id": 4,
+              "title": "Jumanji",
+              "genre": "Science Fiction",
+              "rating": "9",
+              "description": "A game adventure.",
+              "releaseDate": "2007-11-10"
+          }
+      }
+    ],
+     "message": "Movies Fetched Successfuly"
+    }
+  ```
+  ### Create Movie
+  - **URL:** `http://localhost:3000/api/rating`
+  - **Method:** `POST`
+  - **Request Body:**
+  ```json
+  {
+     "score": "5",
+    "feedback": "Amazing movie",
+    "movieId": "4"
+  }
+````
+
+### RESPONSE
+
+```json
+{
+  "success": true,
+  "message": "Ratings added succesfully",
+  "data": {
+    "score": 5,
+    "feedback": "Amazing movie",
+    "movie": {
+      "id": 4,
+      "title": "Jumanji",
+      "genre": "Science Fiction",
+      "rating": "9",
+      "description": "A game adventure.",
+      "releaseDate": "2007-11-10"
+    },
+    "id": 1
+  }
+}
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
